@@ -56,10 +56,6 @@ void CVisuals::DrawTickbaseText(CTFPlayer* pLocal)
 		H::Draw.FillRect(posX, posY + 2, sizeX, sizeY, Vars::Menu::Theme::Accent.Value);
 		H::Draw.EndClipping();
 	}
-
-	float notReadyPosY = dtPos.y + fFont.m_nTall + offset + 14; 
-	if (G::WaitForShift)
-		H::Draw.String(fFont, dtPos.x, notReadyPosY, Vars::Menu::Theme::Active.Value, ALIGN_TOP, "Not Ready");
 }
 
 

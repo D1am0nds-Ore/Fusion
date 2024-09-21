@@ -36,7 +36,7 @@ void CTickshiftHandler::Recharge(CUserCmd* pCmd, CTFPlayer* pLocal)
 
 	G::Recharge = true;
 	if (bGoalReached)
-		G::ShiftedGoal = G::MaxShift;
+		G::ShiftedGoal = G::ShiftedTicks + 1;
 }
 
 void CTickshiftHandler::Teleport(CUserCmd* pCmd)
@@ -53,9 +53,7 @@ void CTickshiftHandler::Teleport(CUserCmd* pCmd)
 void CTickshiftHandler::Doubletap(const CUserCmd* pCmd, CTFPlayer* pLocal)
 {
 	// Can we doubletap?
-	bool bCanDoubleTap = (G::ShiftedTicks >= std::min(Vars::CL_Move::Doubletap::TickLimit.Value - 1, G::MaxShift)) &&
-		!G::WaitForShift && !G::Warp && !G::Recharge && !bSpeedhack &&
-		G::CanPrimaryAttack &&
+	bool bCanDoubleTap = !G::Warp && !G::Recharge && !bSpeedhack && G::CanPrimaryAttack &&
 		(G::WeaponType == EWeaponType::MELEE ? (pCmd->buttons & IN_ATTACK) : G::IsAttacking) &&
 		F::AutoRocketJump.iFrame == -1;
 
@@ -105,11 +103,9 @@ bool CTickshiftHandler::ValidWeapon(CTFWeaponBase* pWeapon)
 	case TF_WEAPON_JAR_MILK:
 	case TF_WEAPON_LUNCHBOX:
 	case TF_WEAPON_BUFF_ITEM:
-	case TF_WEAPON_ROCKETPACK:
 	case TF_WEAPON_JAR_GAS:
 	case TF_WEAPON_LASER_POINTER:
 	case TF_WEAPON_MEDIGUN:
-	case TF_WEAPON_SNIPERRIFLE:
 	case TF_WEAPON_SNIPERRIFLE_DECAP:
 	case TF_WEAPON_SNIPERRIFLE_CLASSIC:
 	case TF_WEAPON_COMPOUND_BOW:
